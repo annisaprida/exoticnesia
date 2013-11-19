@@ -43,14 +43,19 @@ class Infonesia extends CActiveRecord
 	 */
 	public function rules()
 	{
+		// Validasi ditambahkan oleh Egidius Richang
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
 			array('namadaerah, deskripsi, username', 'required'),
 			array('namadaerah', 'unique'),
+			array('namadaerah', 'match', 'pattern'=>'/^([A-Za-z\s])+$/'),
 			array('namadaerah', 'length', 'max'=>100),
-			array('username', 'length', 'max'=>20),
+			//array('username', 'length', 'max'=>20),
+			array('deskripsi', 'length', 'max'=> 250),
+			array('deskripsi', 'match', 'pattern'=>'/^([A-Za-z0-9_\.\,\-\"\:\&\(\)\s])+$/'),
 			array('kendaraan', 'safe'),
+			array('kendaraan', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('namadaerah, deskripsi, kendaraan, username', 'safe', 'on'=>'search'),

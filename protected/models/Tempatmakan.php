@@ -35,12 +35,15 @@ class Tempatmakan extends CActiveRecord
 	 */
 	public function rules()
 	{
+		// Validasi ditambahkan oleh Egidius Richang
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
 			array('namadaerah, tempatmakan', 'required'),
 			array('tempatmakan', 'length', 'max'=>200),
+			array('tempatmakan', 'match', 'pattern'=>'/^([A-Za-z0-9_\.\,\-\"\:\&\(\)\s])+$/'),
 			array('namadaerah', 'length', 'max'=>100),
+			array('namadaerah', 'match', 'pattern'=>'/^([A-Za-z\s])+$/'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('namadaerah, tempatmakan', 'safe', 'on'=>'search'),
