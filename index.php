@@ -13,3 +13,4 @@ require_once($yii);
 Yii::createWebApplication($config)->run(); //Ini tyara coba fitur
 
 //This is egidius richang
+//ini komen icha
