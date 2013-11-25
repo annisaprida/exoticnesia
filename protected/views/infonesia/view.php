@@ -71,27 +71,34 @@ $this->pageTitle=Yii::app()->name . ' - Infonesia : ' . $model->namadaerah;
 
 <div class="rating">
     <?php
+        $totalRating = $model->getTotalRating();
+        $ratersCount = $model->getRatersCount();
+        echo '<span id="total_rating">';
+                    if ( ! $totalRating)
+                        echo 'N/A';
+                    else
+                        echo '' . ((double)$totalRating / $ratersCount) .'/5 '. ' (dari ' . $ratersCount . ' pengguna)';
+        echo '</span>';?>
+    <?php
         $this->widget('CStarRating',array(
             'name'=>'rating',
             'maxRating' => 5,
             'minRating' => 1,
+            'starCount' => 5,
             'allowEmpty' => false,
-            'readOnly' => false,
-
+            'value' => $model->getRating(Yii::app()->user->id),
             'callback'=>'
             function(){
                     $.ajax({
                     type: "POST",
                     url: "'.Yii::app()->createUrl('infonesia/rating').'",
-                    data: "id='.$model->namadaerah.'&rate=" + $(this).val(),
+                    data: "id='.$model->namadaerah.'&username='.Yii::app()->user->id.'&rate=" + $(this).val(),
                     success: function(msg){
-                    $("#rating > input").rating("readOnly", true);
-                    document.location.reload(true);
-                    }})}'
-             ));
+                         $("#total_rating > input").html(msg);
+                    }
+                })}'));
         
     ?>
-    <?php echo $rating."/5";?>
 </div>
 
 

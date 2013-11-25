@@ -121,5 +121,63 @@ class Infonesia extends CActiveRecord
         return $review->save();
     }
 
+    
+    public function getTotalRating()
+	{
+		$cmd = Yii::app()->db->createCommand();
+		$cmd->select('SUM(nilai) AS ratingSum');
+		$cmd->from('rating');
+		$cmd->where('namadaerah=:X', array(':X' => $this->namadaerah));
+
+		$res = $cmd->queryRow();
+		return $res['ratingSum'];
+	}
+
+	/**
+	 * Retrieves the rating of this note given by a student
+	 * @param int student_id the student id
+	 * @return double the rating of this note given by student $student_id
+	 */
+	public function getRating($username0)
+	{
+		$cmd = Yii::app()->db->createCommand();
+		$cmd->select('nilai');
+		$cmd->from('rating');
+		$cmd->where('namadaerah=:X AND username=:Y', array(':X' => $this->namadaerah, ':Y' => $username0));
+
+		$res = $cmd->queryRow();
+		return $res['nilai'];
+	}
+
+public function getRatersCount()
+	{
+		$cmd = Yii::app()->db->createCommand();
+		$cmd->select('COUNT(*) AS ratersCount');
+		$cmd->from('rating');
+		$cmd->where('namadaerah=:X', array(':X' => $this->namadaerah));
+
+		$res = $cmd->queryRow();
+		return $res['ratersCount'];
+	}
+	public function rate($username0, $rating)
+	{
+		$cmd = Yii::app()->db->createCommand();
+		$cmd->select('*');
+		$cmd->from('rating');
+		$cmd->where('namadaerah=:X AND username=:Y', array(':X' => $this->namadaerah, ':Y' => $username0));
+		$res = $cmd->queryRow();
+
+		if ($res)
+		{
+			$cmd = Yii::app()->db->createCommand();
+			$cmd->update('rating', array('nilai' => $rating, 'username'=>$username0),'namadaerah=:namadaerah AND username=:username0');
+		}
+		else
+		{
+			$cmd = Yii::app()->db->createCommand();
+			$cmd->insert('rating', array('namadaerah' => $this->namadaerah, 'username' => $username0, 'nilai' => $rating));
+		}
+	}
+
 
 }
