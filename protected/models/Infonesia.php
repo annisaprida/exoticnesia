@@ -121,7 +121,7 @@ class Infonesia extends CActiveRecord
         return $review->save();
     }
 
-    
+    //add by Annisa Prida Rachmadianty
     public function getTotalRating()
 	{
 		$cmd = Yii::app()->db->createCommand();
@@ -149,7 +149,8 @@ class Infonesia extends CActiveRecord
 		return $res['nilai'];
 	}
 
-public function getRatersCount()
+	//add by Annisa Prida Rachmadianty
+	public function getRatersCount()
 	{
 		$cmd = Yii::app()->db->createCommand();
 		$cmd->select('COUNT(*) AS ratersCount');
@@ -159,6 +160,7 @@ public function getRatersCount()
 		$res = $cmd->queryRow();
 		return $res['ratersCount'];
 	}
+	//add by Annisa Prida Rachmadianty
 	public function rate($username0, $rating)
 	{
 		$cmd = Yii::app()->db->createCommand();
@@ -170,7 +172,7 @@ public function getRatersCount()
 		if ($res)
 		{
 			$cmd = Yii::app()->db->createCommand();
-			$cmd->update('rating', array('nilai' => $rating, 'username'=>$username0),'namadaerah=:namadaerah AND username=:username0');
+			$cmd->update('rating', array('nilai' => $rating, 'username'=>$username0),'namadaerah=:namadaerah');
 		}
 		else
 		{
@@ -178,6 +180,4 @@ public function getRatersCount()
 			$cmd->insert('rating', array('namadaerah' => $this->namadaerah, 'username' => $username0, 'nilai' => $rating));
 		}
 	}
-
-
 }

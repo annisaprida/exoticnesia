@@ -107,17 +107,18 @@ class InfonesiaController extends Controller
     }
 
     public function actionRating() {
-
-    	$query = 'select namadaerah, username from rating where namadaerah = \''.$_POST['id'].'\' AND username = \''.Yii::app()->user->id.'\'';
-        $models = Yii::app()->db->createCommand($query)->queryRow();
-
-        if(Empty($models['username'])) {
-            $rating = new Rating;
-            $rating->namadaerah = $_POST['id'];
-            $rating->nilai = $_POST['rate'];
-            $rating->username = Yii::app()->user->id;
-            $rating->save();
-        }        
+    	//edit by Annisa Prida
+    	$username = $_POST['username'];
+    	$id = $_POST['id'];
+    	$rating = $_POST['rate'];
+    	$model = $this->loadModel($id);
+    	$model->rate($username,$rating);
+        $totalRating = $model->getTotalRating();
+        $ratersCount = $model->getRatersCount();
+         if ( ! $totalRating)
+			echo 'N/A';
+		else
+			echo '' . ((double)$totalRating / $ratersCount) . ' (dari ' . $ratersCount . ' pengguna)';
     }
 
     public function actionSumRating($model) {

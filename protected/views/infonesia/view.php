@@ -71,6 +71,7 @@ $this->pageTitle=Yii::app()->name . ' - Infonesia : ' . $model->namadaerah;
 
 <div class="rating">
     <?php
+        //edit by Annisa Prida Rachmadianty
         $totalRating = $model->getTotalRating();
         $ratersCount = $model->getRatersCount();
         echo '<span id="total_rating">';
@@ -94,7 +95,7 @@ $this->pageTitle=Yii::app()->name . ' - Infonesia : ' . $model->namadaerah;
                     url: "'.Yii::app()->createUrl('infonesia/rating').'",
                     data: "id='.$model->namadaerah.'&username='.Yii::app()->user->id.'&rate=" + $(this).val(),
                     success: function(msg){
-                         $("#total_rating > input").html(msg);
+                         $("#total_rating").html(msg);
                     }
                 })}'));
         
