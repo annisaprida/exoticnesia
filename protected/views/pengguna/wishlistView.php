@@ -1,7 +1,7 @@
 <div class="view" style="float:left; margin-right:20px; height: 250px; width:300px;" align="center">
 <?php
     $dataProvider = new CActiveDataProvider('Wishlist',array(
-        'pagination'=>array('pageSize'=>1,'pagerVar'=>$data->id),
+        'pagination'=>array('pageSize'=>1,'pageVar'=>$data->id),
         'criteria'=>array('condition'=> 'id=\''.$data->id.'\''),
 ));
 ?>
