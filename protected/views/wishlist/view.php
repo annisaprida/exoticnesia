@@ -38,6 +38,11 @@ $this->pageTitle=Yii::app()->name . $nw;
 		);
 	?>
 	</h1>
+	<?php 
+        if(Yii::app()->user->id == $model->id0->username0->username) {
+            echo "(".CHtml::link('delete', array('/wishlist/userdelete', 'id'=>$id, 'username'=>$model->id0->username0->username, 'page'=>$page), array('confirm'=>'Apakah Anda yakin ingin menghapus wishlist ini?')).")\n";
+        }
+     ?>
 <?php else : ?>
 	<h1>Wishlist #<?php echo $model->id0->nama; ?></h1>
 <?php endif; ?>

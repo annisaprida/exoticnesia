@@ -32,7 +32,7 @@ class WishlistController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update', 'editable'),
+				'actions'=>array('create','update', 'editable', 'userdelete'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -49,14 +49,15 @@ class WishlistController extends Controller
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
-	public function actionView($id)
+	public function actionView($id, $page)
 	{	
 		// id disini idnya si wishlistmanager.
 		// $model=$this->loadModel($id);
 		$ws = Wishlist::model()->find('id=?',array($id));
 		$this->render('view',array(
 			'model'=>$ws,
-			// 'model'=>$model,
+			'id'=>$id,
+			'page'=>$page,
 		));
 	}
 
@@ -132,6 +133,32 @@ class WishlistController extends Controller
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+	}
+
+	/**
+	 * action untuk menghapus wishlist dari user.
+	 *
+	 * added by Wira Pramudy
+	 */
+	public function actionUserDelete($id, $username, $page)
+	{
+		$criteria = new CDbCriteria();
+		$criteria->addCondition("id =".$id);
+		$wishlistmanModel = new WishlistManager;
+		$wishlistModel = new Wishlist;
+		$wishlistman = $wishlistmanModel->find('id=:id',array(':id'=>$id));
+		$wishlist = $wishlistModel->find('id=:id',array(':id'=>$id));
+		if ($wishlistman->delete() && $wishlist->delete())
+		{
+			Yii::app()->user->setFlash('success', 'Wishlist berhasil dihapus.');
+		}
+		else Yii::app()->user->setFlash('fail', 'Wishlist gagal dihapus.');
+		if ($page == 'index'){
+			$this->redirect(array('index'));
+		} 
+		if ($page == 'profil') {
+			$this->redirect(array('/pengguna/view', 'id'=>$username));
+		}
 	}
 
 	/**

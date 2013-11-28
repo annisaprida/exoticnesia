@@ -5,7 +5,7 @@
         'criteria'=>array('condition'=> 'id=\''.$data->id.'\''),
 ));
 ?>
-  <?php echo CHtml::link($data->nama, array('/wishlist/view','id'=>$data->id)) . ' by ' . CHtml::link($data->username, array('/pengguna/view','id'=>$data->username)); ?>      
+  <?php echo CHtml::link($data->nama, array('/wishlist/view','id'=>$data->id, 'page'=>$page)) . ' by ' . CHtml::link($data->username, array('/pengguna/view','id'=>$data->username)); ?>      
 	<span>
      <?php $this->widget('bootstrap.widgets.TbListView', array(
          'dataProvider'=>$dataProvider,
