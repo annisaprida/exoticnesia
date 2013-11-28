@@ -9,5 +9,6 @@
        'dataProvider'=>$dataProvider,
        'itemView'=>'wishlistView',
        'htmlOptions'=>array('style'=>'margin-left:30px;'),
+       'viewData' => array('page' => 'profil'),
 	)); 
 ?>

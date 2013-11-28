@@ -332,7 +332,7 @@ class PenggunaController extends Controller
 					$container->delete();
 				}
 			}
-			$this->redirect(array('/wishlist/view', 'id'=>$wishlistman->id));
+			$this->redirect(array('/wishlist/view', 'id'=>$wishlistman->id, 'page'=>'profil'));
 		
 		} else {
 			Yii::app()->user->setFlash('error',"Untuk membuat wishlist, pilih infonesia terlebih dahulu");
