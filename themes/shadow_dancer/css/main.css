@@ -1,4 +1,3 @@
-
 body
 {
 	/*margin-top: 30px;*/
@@ -696,7 +695,11 @@ DIV#content .compactRadioGroup INPUT {
     display: inline;
 }
 
-.carousel-inner > .item > img{
-  width: 100%;
-  height: 100%;
+.close{
+	color: #E50900 !important;
+	opacity: 0.8 !important;
+}
+
+.close:hover, .close:focus {
+	color : #890500 !important;
 }
