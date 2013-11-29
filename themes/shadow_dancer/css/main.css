@@ -695,3 +695,11 @@ DIV#content .compactRadioGroup INPUT {
     display: inline;
 }
 
+.close{
+	color: #E50900 !important;
+	opacity: 0.8 !important;
+}
+
+.close:hover, .close:focus {
+	color : #890500 !important;
+}

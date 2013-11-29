@@ -6,7 +6,13 @@
 ));
 ?>
   <?php echo CHtml::link($data->nama, array('/wishlist/view','id'=>$data->id, 'page'=>$page)) . ' by ' . CHtml::link($data->username, array('/pengguna/view','id'=>$data->username)); ?>      
-	<span>
+	<?php 
+        if(Yii::app()->user->id == $data->username && $page == 'profil') {
+            echo CHtml::link('<button type="button" class="close">x</button>', 
+                array('/wishlist/userdelete', 'id'=>$data->id, 'username'=>$data->username), array('confirm'=>'Apakah Anda yakin?'))."\n";
+        }
+     ?>
+  <span>
      <?php $this->widget('bootstrap.widgets.TbListView', array(
          'dataProvider'=>$dataProvider,
          'template' => "{items}\n{pager}",

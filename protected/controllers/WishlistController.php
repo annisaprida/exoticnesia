@@ -140,7 +140,7 @@ class WishlistController extends Controller
 	 *
 	 * added by Wira Pramudy
 	 */
-	public function actionUserDelete($id, $username, $page)
+	public function actionUserDelete($id, $username)
 	{
 		$criteria = new CDbCriteria();
 		$criteria->addCondition("id =".$id);
@@ -153,12 +153,7 @@ class WishlistController extends Controller
 			Yii::app()->user->setFlash('success', 'Wishlist berhasil dihapus.');
 		}
 		else Yii::app()->user->setFlash('fail', 'Wishlist gagal dihapus.');
-		if ($page == 'index'){
-			$this->redirect(array('index'));
-		} 
-		if ($page == 'profil') {
-			$this->redirect(array('/pengguna/view', 'id'=>$username));
-		}
+		$this->redirect(array('/pengguna/view', 'id'=>$username));
 	}
 
 	/**
