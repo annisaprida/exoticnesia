@@ -115,10 +115,12 @@ class InfonesiaController extends Controller
     	$model->rate($username,$rating);
         $totalRating = $model->getTotalRating();
         $ratersCount = $model->getRatersCount();
+		$avg_rating = ((double)$totalRating / $ratersCount);
+		$model->updateRating($avg_rating);
          if ( ! $totalRating)
 			echo 'N/A';
 		else
-			echo '' . ((double)$totalRating / $ratersCount) . ' (dari ' . $ratersCount . ' pengguna)';
+			echo '' . $avg_rating . ' (dari ' . $ratersCount . ' pengguna)';
     }
 
     public function actionSumRating($model) {
@@ -321,7 +323,11 @@ class InfonesiaController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Infonesia');
+		$dataProvider=new CActiveDataProvider('Infonesia', array(
+			'criteria'=>array(
+	        'order'=>'avg_rating DESC',
+	    ),
+			));
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));

@@ -8,6 +8,7 @@
  * @property string $deskripsi
  * @property string $kendaraan
  * @property string $username
+ * @property double $avg_rating
  *
  * The followings are the available model relations:
  * @property Container[] $containers
@@ -90,6 +91,7 @@ class Infonesia extends CActiveRecord
 			'deskripsi' => 'Deskripsi',
 			'kendaraan' => 'Kendaraan',
 			'username' => 'Username',
+			'avg_rating' => 'Nilai Rating',
 		);
 	}
 
@@ -179,5 +181,16 @@ class Infonesia extends CActiveRecord
 			$cmd = Yii::app()->db->createCommand();
 			$cmd->insert('rating', array('namadaerah' => $this->namadaerah, 'username' => $username0, 'nilai' => $rating));
 		}
+	}
+
+	/**
+	 * fungsi untuk meng-update nilai terkini dari rating infonesia
+	 *
+	 * added by Wira Pramudy
+	 */
+	public function updateRating($avg_rating)
+	{
+		$cmd = Yii::app()->db->createCommand();
+		$cmd->update('infonesia', array('avg_rating' => $avg_rating), 'namadaerah=:namadaerah', array(':namadaerah'=> $this->namadaerah));
 	}
 }
