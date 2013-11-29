@@ -703,3 +703,7 @@ DIV#content .compactRadioGroup INPUT {
 .close:hover, .close:focus {
 	color : #890500 !important;
 }
+
+.carousel-inner > .item > img{
+  width: 100%;
+  height: 100%;
