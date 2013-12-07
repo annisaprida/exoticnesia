@@ -49,12 +49,12 @@ class Infonesia extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('namadaerah, deskripsi, username', 'required'),
-			array('namadaerah', 'unique'),
-			array('namadaerah', 'match', 'pattern'=>'/^([A-Za-z\s])+$/'),
+			array('namadaerah', 'unique','message'=>'Nama Daerah must be unique'),
+			array('namadaerah', 'match', 'pattern'=>'/^([A-Za-z\s])+$/','message'=>'Nama Daerah must be filled with alphabetic character'),
 			array('namadaerah', 'length', 'max'=>100),
 			//array('username', 'length', 'max'=>20),
 			array('deskripsi', 'length', 'max'=> 250),
-			array('deskripsi', 'match', 'pattern'=>'/^([A-Za-z0-9_\.\,\-\"\:\&\(\)\s])+$/'),
+			array('deskripsi', 'match', 'pattern'=>'/^([A-Za-z0-9_\.\,\-\"\:\&\(\)\s])+$/','message'=>'Deskripsi has invalid pattern'),
 			array('kendaraan', 'safe'),
 			array('kendaraan', 'length', 'max'=>100),
 			// The following rule is used by search().
