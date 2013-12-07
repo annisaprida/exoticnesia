@@ -144,7 +144,7 @@ class WishlistController extends Controller
 	{
 		$criteria = new CDbCriteria();
 		$criteria->addCondition("id =".$id);
-		$wishlistmanModel = new WishlistManager;
+		$wishlistmanModel = new Wishlistmanager;
 		$wishlistModel = new Wishlist;
 		$wishlistman = $wishlistmanModel->find('id=:id',array(':id'=>$id));
 		$wishlist = $wishlistModel->find('id=:id',array(':id'=>$id));
