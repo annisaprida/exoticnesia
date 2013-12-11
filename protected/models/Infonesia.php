@@ -8,6 +8,7 @@
  * @property string $deskripsi
  * @property string $kendaraan
  * @property string $username
+ * @property double $avg_rating
  *
  * The followings are the available model relations:
  * @property Container[] $containers
@@ -48,12 +49,12 @@ class Infonesia extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('namadaerah, deskripsi, username', 'required'),
-			array('namadaerah', 'unique'),
-			array('namadaerah', 'match', 'pattern'=>'/^([A-Za-z\s])+$/'),
+			array('namadaerah', 'unique','message'=>'Nama Daerah must be unique'),
+			array('namadaerah', 'match', 'pattern'=>'/^([A-Za-z\s])+$/','message'=>'Nama Daerah must be filled with alphabetic character'),
 			array('namadaerah', 'length', 'max'=>100),
 			//array('username', 'length', 'max'=>20),
 			array('deskripsi', 'length', 'max'=> 250),
-			array('deskripsi', 'match', 'pattern'=>'/^([A-Za-z0-9_\.\,\-\"\:\&\(\)\s])+$/'),
+			array('deskripsi', 'match', 'pattern'=>'/^([A-Za-z0-9_\.\,\-\"\:\&\(\)\s])+$/','message'=>'Deskripsi has invalid pattern'),
 			array('kendaraan', 'safe'),
 			array('kendaraan', 'length', 'max'=>100),
 			// The following rule is used by search().
@@ -90,6 +91,7 @@ class Infonesia extends CActiveRecord
 			'deskripsi' => 'Deskripsi',
 			'kendaraan' => 'Kendaraan',
 			'username' => 'Username',
+			'avg_rating' => 'Nilai Rating',
 		);
 	}
 
@@ -179,5 +181,16 @@ class Infonesia extends CActiveRecord
 			$cmd = Yii::app()->db->createCommand();
 			$cmd->insert('rating', array('namadaerah' => $this->namadaerah, 'username' => $username0, 'nilai' => $rating));
 		}
+	}
+
+	/**
+	 * fungsi untuk meng-update nilai terkini dari rating infonesia
+	 *
+	 * added by Wira Pramudy
+	 */
+	public function updateRating($avg_rating)
+	{
+		$cmd = Yii::app()->db->createCommand();
+		$cmd->update('infonesia', array('avg_rating' => $avg_rating), 'namadaerah=:namadaerah', array(':namadaerah'=> $this->namadaerah));
 	}
 }

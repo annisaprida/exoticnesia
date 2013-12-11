@@ -39,18 +39,11 @@ class Urlpic extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('namadaerah, urlpic, gambar_daerah', 'required'),
-			array('namadaerah', 'length', 'max'=>100),
+			array('gambar_daerah', 'required', 'message'=>'You must upload 5 pictures'),
 			array('urlpic', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('namadaerah, urlpic', 'safe', 'on'=>'search'),
-
-
-			array('gambar_daerah','file','types'=>'jpeg,jpg,png','allowEmpty'=>false),
-
-
-			array('urlpic', 'file', 'types' => 'jpg, jpeg, gif, png', 'allowEmpty' => false),
+			array('gambar_daerah', 'safe', 'on'=>'search'),
 
 		);
 	}
@@ -75,7 +68,6 @@ class Urlpic extends CActiveRecord
 		return array(
 			'namadaerah' => 'Namadaerah',
 			'urlpic' => 'Urlpic',
-			'gambar_daerah' => 'Gambar Daerah',
 		);
 	}
 

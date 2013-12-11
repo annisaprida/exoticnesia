@@ -115,10 +115,12 @@ class InfonesiaController extends Controller
     	$model->rate($username,$rating);
         $totalRating = $model->getTotalRating();
         $ratersCount = $model->getRatersCount();
+		$avg_rating = ((double)$totalRating / $ratersCount);
+		$model->updateRating($avg_rating);
          if ( ! $totalRating)
 			echo 'N/A';
 		else
-			echo '' . ((double)$totalRating / $ratersCount) . ' (dari ' . $ratersCount . ' pengguna)';
+			echo '' . $avg_rating . ' (dari ' . $ratersCount . ' pengguna)';
     }
 
     public function actionSumRating($model) {
@@ -144,10 +146,22 @@ class InfonesiaController extends Controller
 	 */
 	public function actionCreate()
 	{
+	/**
+	 * Merubah proses pembuatan Infonesia secara besar-besaran
+	 * Perubahan ditujukan untuk pesan error pada model Urlpic, Penginapan dan Tempatmakan agar bisa ditampilkan
+	 */
 		$model= new Infonesia;
-		$item = new Urlpic;
-		$place = new Penginapan;
-		$j = 0;
+		$item1 = new Urlpic;
+		$item2 = new Urlpic;
+		$item3 = new Urlpic;
+		$item4 = new Urlpic;
+		$item5 = new Urlpic;
+		$place2 = new Penginapan;
+		$resto = new Tempatmakan;
+		$gambarBoolean = false;
+		$tempatMakanBoolean = false;
+		$penginapanBoolean = false;
+		$infonesiaBoolean = false;
 		$i = 0;
 		
 		$path = Yii::app()->basePath.'/../images/';
@@ -158,83 +172,79 @@ class InfonesiaController extends Controller
 				$model->username='admin';
 				if($model->validate())
 				{
-					
-					
-					$path = Yii::app()->basePath . '/../images/infonesia/' .$model->namadaerah. '/';
+						$infonesiaBoolean = true;
+				}
+				$path = Yii::app()->basePath . '/../images/infonesia/' .$model->namadaerah. '/';
 					$array = $_POST['Urlpic'];
-					//$item1 = array();
 					$gambar = array();
-
+					$j = 0;
 					foreach ($array as $isi) 
 					{	
-						$item1 = new Urlpic;
-						//$tempo = $item1[$i];
-						// $item1->attributes = $isi;
 						
-						// $item1->namadaerah = $model->namadaerah;
-						
-						$image = CUploadedFile::getInstance($item1, '['.$i.']gambar_daerah');
+						$image = CUploadedFile::getInstance(Urlpic::model(), '['.$j.']gambar_daerah');
 						if(!empty($image))
                         {
-                        	$gambar[$i]=$image;
-                        	//$image->saveAs($path.$image);
-	                     	//$item[$i]->urlpic = $image->name;
-	                     	//$item1->save(false);
-	                     	//echo $j;	
-	                     	$j+=1;
-                        }
-						
-                        $i+=1;
-                     	
+							if($j == 0){
+								$gambar[$j]=$image;
+								$item1->namadaerah = $model->namadaerah;
+								$item1->gambar_daerah = $j;
+								$item1->urlpic = $gambar[$j]->name;
+								if($item1 -> validate()){
+									$j+=1;
+								}
+							}else if($j == 1){
+								$gambar[$j]=$image;
 
+								$item2->namadaerah = $model->namadaerah;
+								$item2->gambar_daerah = $j;
+								$item2->urlpic = $gambar[$j]->name;
+								if($item2 -> validate()){
+									$j+=1;
+								}
+							}else if($j == 2){
+								$gambar[$j]=$image;
+
+								$item3->namadaerah = $model->namadaerah;
+								$item3->gambar_daerah = $j;
+								$item3->urlpic = $gambar[$j]->name;
+								if($item3 -> validate()){
+									$j+=1;
+								}
+							}else if($j == 3){
+								$gambar[$j]=$image;
+								$item4->namadaerah = $model->namadaerah;
+								$item4->gambar_daerah = $j;
+								$item4->urlpic = $gambar[$j]->name;
+								if($item4 -> validate()){
+									$j+=1;
+								}
+							}else if($j == 4){
+								$gambar[$j]=$image;
+								$item5->namadaerah = $model->namadaerah;
+								$item5->gambar_daerah = $j;
+								$item5->urlpic = $gambar[$j]->name;
+								if($item5 -> validate()){
+									$j+=1;
+								}
+							}
+                        }
 					}
-					$array2 = $_POST['Urlpic'];
-					if($j==5)
-						$model->save();
-					$a=0;
-
-					foreach ($array2 as $isi2) 
-					{	
-						$temp1 = new Urlpic;
-						$temp1->attributes = $isi2;
-						
-						$temp1->namadaerah = $model->namadaerah;
-						
-						//$image = CUploadedFile::getInstance($item1, '['.$i.']image');
-						if (!is_dir($path))
-                                Yii::app()->helper->createFolder($path);
-                     	
-                        if($j==5)
-                        {
-                        	
-	                        	$gambar[$a]->saveAs($path.$gambar[$a]);
-		                     	$temp1->urlpic = $gambar[$a]->name;
-	                     		$temp1->save(false);
-	                     		$a+=1;
-	                     	
-	                     		
-	                     	//else 
-
-                        }
-                     		
-                     	
+					 
+					if($item1->validate() && $item2->validate() && $item3->validate() && $item4->validate() && $item5->validate()){
+						$gambarBoolean = true;
 					}
 					
-					 
-
-					if(isset($_POST['Penginapan']))
+				if(isset($_POST['Penginapan']))
 					{
 						$temp = $_POST['Penginapan']['penginapan'];
 						$places = explode(';',$temp);
 						foreach($places as $value)
 						{
-							$item2 = new Penginapan;
-							$item2->penginapan = $value;
-							$item2->namadaerah = $model->namadaerah;
-							//$item2->penginapan = $temp2->penginapan;
-							if($j==5)
+							$place2->penginapan = $value;
+							$place2->namadaerah = $model->namadaerah;
+							if($place2->validate())
 							{
-								$item2->save();
+								$penginapanBoolean = true;
 							}
 								
 						}
@@ -242,36 +252,40 @@ class InfonesiaController extends Controller
 					if(isset($_POST['Tempatmakan']))
 					{
 						$temp2 = $_POST['Tempatmakan']['tempatmakan'];
-						$resto = explode(';',$temp2);
-						foreach($resto as $value2)
+						$resto1 = explode(';',$temp2);
+						foreach($resto1 as $value2)
 						{
-							$item3 = new Tempatmakan;
-							$item3->tempatmakan = $value2;
-							$item3->namadaerah = $model->namadaerah;
-							if($j==5)
+							$resto->tempatmakan = $value2;
+							$resto->namadaerah = $model->namadaerah;
+							if($resto->validate())
 							{
-								$item3->save();
+								$tempatMakanBoolean = true;
 							}
 								
 						}
 					}
-				}
-				if($j==5&&$a==5)
-				{
-					$this->redirect(array('view','id'=>$model->namadaerah));
-				}	
-				else{}				
-				// else
-				// {
-				// 	$this->refresh();
-				// }
-					
+					if($penginapanBoolean && $tempatMakanBoolean && $gambarBoolean && $infonesiaBoolean){
+													if (!is_dir($path))
+									Yii::app()->helper->createFolder($path);
+						$model->save();
+						$item1->save();
+						$resto->save();
+						$place2->save();
+						$gambar[0]->saveAs($path.$gambar[0]);
+						$item2->save();
+						$gambar[1]->saveAs($path.$gambar[1]);
+						$item3->save();
+						$gambar[2]->saveAs($path.$gambar[2]);
+						$item4->save();
+						$gambar[3]->saveAs($path.$gambar[3]);
+						$item5->save();
+						$gambar[4]->saveAs($path.$gambar[4]);
+						$this->redirect(array('view','id'=>$model->namadaerah));
+					}
 			}
 
 		$this->render('create',array(
-			'model'=>$model,
-			'item'=>$item,
-			'place'=>$place,
+			'model'=>$model,'place'=>$place2, 'item1'=>$item1, 'item2'=>$item2, 'item3'=>$item3, 'item4'=>$item4, 'item5'=>$item5, 'resto'=>$resto,
 		));	
 			
 		// Uncomment the following line if AJAX validation is needed
@@ -321,7 +335,11 @@ class InfonesiaController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Infonesia');
+		$dataProvider=new CActiveDataProvider('Infonesia', array(
+			'criteria'=>array(
+	        'order'=>'avg_rating DESC',
+	    ),
+			));
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));

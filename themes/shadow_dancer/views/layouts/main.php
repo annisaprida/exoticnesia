@@ -53,6 +53,7 @@
 					'class' => 'bootstrap.widgets.TbMenu',
 					'htmlOptions'=>array('class'=>'pull-right'),
 					'items' => array(
+						array('label'=>'Register', 'url'=>array('/pengguna/create'), 'visible'=>Yii::app()->user->isGuest),
 						array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
 						array('label'=>'Profil', 'url'=>array('/pengguna/view', 'id'=>Yii::app()->user->id), 'visible'=>!Yii::app()->user->isGuest&&!Yii::app()->user->isAdmin()),
 						array('label'=>'Khusus Admin', 'url'=>array('/infonesia/admin'), 'visible'=>Yii::app()->user->isAdmin()),
